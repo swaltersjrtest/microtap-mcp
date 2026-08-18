@@ -42,5 +42,13 @@
   "devDependencies": {
     "@types/node": "^22.10.0",
     "typescript": "^5.6.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/swaltersjrtest/microtap-mcp.git"
+  },
+  "homepage": "https://github.com/swaltersjrtest/microtap-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/swaltersjrtest/microtap-mcp/issues"
   }
 }

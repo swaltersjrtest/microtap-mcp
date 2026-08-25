@@ -1,7 +1,7 @@
 {
   "name": "microtap-mcp",
-  "version": "0.1.1",
-  "description": "MCP server for MicroTap (x402tap.com) — 19 pay-per-call x402 APIs (prediction markets, DeFi, crypto, multi-chain on-chain data, weather, web search). Install into Claude Desktop, Claude Code, Cursor, or Windsurf; pay per call in USDC on Base, no signup or API key.",
+  "version": "0.2.0",
+  "description": "MCP server for MicroTap (x402tap.com) — 20 pay-per-call x402 APIs (prediction markets, DeFi, crypto, multi-chain on-chain data, weather, web search). Install into Claude Desktop, Claude Code, Cursor, or Windsurf; pay per call in USDC on Base, no signup or API key.",
   "type": "module",
   "bin": {
     "microtap-mcp": "./dist/index.js"

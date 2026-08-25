@@ -1,6 +1,6 @@
 # microtap-mcp
 
-An MCP server for [MicroTap](https://x402tap.com) — 19 pay-per-call APIs (Polymarket & Kalshi prediction markets, DeFi/crypto data, multi-chain on-chain reads, live weather, real-time web search) paid for automatically in USDC via the [x402 protocol](https://x402.org). No signup, no API key, no dashboard — install it, fund a small local wallet, and your AI assistant can start calling paid endpoints on its own.
+An MCP server for [MicroTap](https://x402tap.com) — 20 pay-per-call APIs (Polymarket & Kalshi prediction markets, cross-platform prediction-market divergence, DeFi/crypto data, multi-chain on-chain reads, live weather, real-time web search) paid for automatically in USDC via the [x402 protocol](https://x402.org). No signup, no API key, no dashboard — install it, fund a small local wallet, and your AI assistant can start calling paid endpoints on its own.
 
 ## Quick start
 
@@ -30,7 +30,7 @@ After adding it, restart your client, then look at the server's startup log (in 
 [microtap-mcp] fund this address with a small amount of USDC on Base mainnet to pay for calls
 ```
 
-Send a few dollars of USDC on **Base mainnet** to that address — at $0.001–$0.05 per call, that covers hundreds of calls. Your assistant can now use any of the 19 tools below; each one pays for itself automatically.
+Send a few dollars of USDC on **Base mainnet** to that address — at $0.001–$0.05 per call, that covers hundreds of calls. Your assistant can now use any of the 20 tools below; each one pays for itself automatically.
 
 ## What it does
 
@@ -54,6 +54,7 @@ The private key never leaves your machine. It isn't sent to MicroTap, an LLM pro
 | `get_polymarket_market` | `/api/polymarket-market` | $0.002 |
 | `search_kalshi_markets` | `/api/kalshi-markets` | $0.003 |
 | `get_kalshi_market` | `/api/kalshi-market` | $0.002 |
+| `find_prediction_market_divergence` | `/api/prediction-arb` | $0.005 |
 | `get_defi_protocol_tvl` | `/api/defi-tvl` | $0.003 |
 | `rank_chains_by_defi_tvl` | `/api/defi-chains` | $0.002 |
 | `get_crypto_price` | `/api/crypto-price` | $0.001 |
@@ -91,7 +92,7 @@ npm start   # runs the compiled server over stdio
 
 - The wallet key is only ever used to *sign* payment messages locally (EIP-712 `exact` scheme on Base mainnet) — it's never transmitted anywhere.
 - `MICROTAP_MCP_MAX_VALUE_USDC` (default $0.10) means this server will refuse to auto-approve a payment above that amount for a single call, even if a route's advertised price is ever wrong or unexpectedly high.
-- All 19 tools are read-only against MicroTap's API surface — none of them can move funds, sign transactions, or write on-chain state (`/api/rpc` is restricted server-side to a safelist of read-only JSON-RPC methods).
+- All 20 tools are read-only against MicroTap's API surface — none of them can move funds, sign transactions, or write on-chain state (`/api/rpc` is restricted server-side to a safelist of read-only JSON-RPC methods).
 
 ## License
 

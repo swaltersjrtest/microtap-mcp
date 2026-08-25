@@ -15,7 +15,7 @@ async function main(): Promise<void> {
     {
       capabilities: { tools: {} },
       instructions:
-        "MicroTap (x402tap.com) exposes 19 pay-per-call APIs over the x402 protocol: prediction " +
+        "MicroTap (x402tap.com) exposes 20 pay-per-call APIs over the x402 protocol: prediction " +
         "markets (Polymarket, Kalshi), DeFi/crypto data, multi-chain on-chain reads, live weather, " +
         "and real-time web search. Every tool call here costs a small amount of USDC (fractions of " +
         "a cent to a few cents), paid automatically from a locally-held wallet — fund that wallet " +

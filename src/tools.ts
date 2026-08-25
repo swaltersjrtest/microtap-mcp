@@ -20,7 +20,7 @@ type RouteDef = {
   params: Record<string, ParamDef>;
 };
 
-// Mirrors the 19 live, settlement-confirmed routes documented in
+// Mirrors the 20 live, settlement-confirmed routes documented in
 // public/openapi.json on x402tap.com. Keep this list in sync with that file
 // if routes are ever added, removed, or repriced.
 const ROUTES: RouteDef[] = [
@@ -111,6 +111,20 @@ const ROUTES: RouteDef[] = [
       "Full detail for a single Kalshi market by ticker: yes/no prices, volume, status, result. Price: $0.002 per call.",
     params: {
       ticker: { zod: z.string().describe("Kalshi market ticker (from search_kalshi_markets)") },
+    },
+  },
+  {
+    toolName: "find_prediction_market_divergence",
+    path: "/api/prediction-arb",
+    title: "Cross-platform Polymarket vs. Kalshi price divergence",
+    description:
+      "Finds prediction-market questions priced differently on Polymarket vs. Kalshi — a cross-platform divergence signal built from data no single-platform competitor has. Matches are keyword-overlap similarity, not a verified same-event guarantee; sanity-check a match before treating it as a real arbitrage signal. Price: $0.005 per call.",
+    params: {
+      q: { zod: z.string().optional().describe("Optional keyword filter on the matched question text") },
+      limit: { zod: z.string().optional().describe("Max matches to return, 1-25 (default 10)") },
+      minDivergencePct: {
+        zod: z.string().optional().describe("Minimum probability-point divergence to include, 0-100 (default 5)"),
+      },
     },
   },
   {

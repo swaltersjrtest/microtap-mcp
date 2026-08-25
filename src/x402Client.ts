@@ -8,8 +8,11 @@ import { MAX_VALUE_ATOMIC } from "./config.js";
  * x402tap.com is paid automatically: it parses the price the server is
  * asking for, signs a payment with the local wallet, and retries the
  * request with the payment attached. Registered for Base mainnet
- * (eip155:8453) only — every one of MicroTap's 19 routes settles there
- * today; add a solana:* scheme here in the future if that changes.
+ * (eip155:8453) only. MicroTap's routes also accept Polygon, Arbitrum, and
+ * Solana, but this client only implements the Base EVM scheme, so it will
+ * always pay via Base regardless of what else a route's 402 offers — add a
+ * matching scheme here (e.g. a solana:* scheme, or Polygon/Arbitrum EVM
+ * schemes) if paying on another network is ever needed.
  */
 export const fetchWithPayment = wrapFetchWithPaymentFromConfig(fetch, {
   schemes: [

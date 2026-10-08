@@ -1,7 +1,7 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { fetchWithPayment } from "./x402Client.js";
-import { BASE_URL } from "./config.js";
+import { BASE_URL, VERSION } from "./config.js";
 
 type ParamDef = {
   zod: z.ZodTypeAny;
@@ -29,7 +29,7 @@ const ROUTES: RouteDef[] = [
     path: "/protected",
     title: "Protected demo content",
     description:
-      "Demo of page-level (not just API-level) x402 protection. Returns a short confirmation message. Price: $0.001 per call.",
+      "Demo of page-level (not just API-level) x402 protection. Returns a short confirmation message. Price: $0.01 per call.",
     params: {},
   },
   {
@@ -37,7 +37,7 @@ const ROUTES: RouteDef[] = [
     path: "/api/weather",
     title: "Live current weather for a city",
     description:
-      "Live current weather conditions for any city (temperature, conditions, humidity, wind), sourced from Open-Meteo. Price: $0.001 per call.",
+      "Live current weather conditions for any city (temperature, conditions, humidity, wind), sourced from Open-Meteo. Price: $0.01 per call.",
     params: {
       city: { zod: z.string().optional().describe("City name, e.g. \"Austin\" (defaults to New York if omitted)") },
     },
@@ -57,10 +57,10 @@ const ROUTES: RouteDef[] = [
     path: "/api/insights",
     title: "Trend insights for a topic",
     description:
-      "Trend score, momentum, and related trends for a topic. Two tiers: standard ($0.001) returns a basic score, premium ($0.005) returns the full breakdown including related trends.",
+      "Trend score, momentum, and related trends for a topic. Two tiers: standard ($0.01) returns a basic score, premium ($0.025) returns the full breakdown including related trends.",
     params: {
       topic: { zod: z.string().describe("Topic to fetch trend insights for") },
-      tier: { zod: z.enum(["standard", "premium"]).optional().describe("standard = $0.001, premium = $0.005 (default standard)") },
+      tier: { zod: z.enum(["standard", "premium"]).optional().describe("standard = $0.01, premium = $0.025 (default standard)") },
     },
   },
   {
@@ -76,7 +76,7 @@ const ROUTES: RouteDef[] = [
     path: "/api/polymarket-markets",
     title: "Search/list active Polymarket prediction markets",
     description:
-      "Search or list active Polymarket prediction markets, ranked by 24h volume — question, outcomes, prices, volume, liquidity, end date. Price: $0.003 per call.",
+      "Search or list active Polymarket prediction markets, ranked by 24h volume — question, outcomes, prices, volume, liquidity, end date. Price: $0.01 per call.",
     params: {
       q: { zod: z.string().optional().describe("Optional keyword filter on the market question") },
       limit: { zod: z.string().optional().describe("Max markets to return, 1-50 (default 10)") },
@@ -87,7 +87,7 @@ const ROUTES: RouteDef[] = [
     path: "/api/polymarket-market",
     title: "Single Polymarket market detail",
     description:
-      "Full detail for a single Polymarket market by slug: prices, volume (24h/1wk/total), liquidity, resolution status. Price: $0.002 per call.",
+      "Full detail for a single Polymarket market by slug: prices, volume (24h/1wk/total), liquidity, resolution status. Price: $0.01 per call.",
     params: {
       slug: { zod: z.string().describe("Polymarket market slug (from the URL, or from search_polymarket_markets)") },
     },
@@ -97,7 +97,7 @@ const ROUTES: RouteDef[] = [
     path: "/api/kalshi-markets",
     title: "Search/list open Kalshi prediction markets",
     description:
-      "Search or list open Kalshi prediction markets (regulated US event contracts) — title, yes/no bid-ask, volume, close time. Price: $0.003 per call.",
+      "Search or list open Kalshi prediction markets (regulated US event contracts) — title, yes/no bid-ask, volume, close time. Price: $0.01 per call.",
     params: {
       q: { zod: z.string().optional().describe("Optional keyword filter on the market title") },
       limit: { zod: z.string().optional().describe("Max markets to return, 1-50 (default 10)") },
@@ -108,7 +108,7 @@ const ROUTES: RouteDef[] = [
     path: "/api/kalshi-market",
     title: "Single Kalshi market detail",
     description:
-      "Full detail for a single Kalshi market by ticker: yes/no prices, volume, status, result. Price: $0.002 per call.",
+      "Full detail for a single Kalshi market by ticker: yes/no prices, volume, status, result. Requires an exact ticker — if you don't have one, find it first with search_kalshi_markets. Price: $0.01 per call.",
     params: {
       ticker: { zod: z.string().describe("Kalshi market ticker (from search_kalshi_markets)") },
     },
@@ -118,7 +118,7 @@ const ROUTES: RouteDef[] = [
     path: "/api/prediction-arb",
     title: "Cross-platform Polymarket vs. Kalshi price divergence",
     description:
-      "Finds prediction-market questions priced differently on Polymarket vs. Kalshi — a cross-platform divergence signal built from data no single-platform competitor has. Matches are keyword-overlap similarity, not a verified same-event guarantee; sanity-check a match before treating it as a real arbitrage signal. Price: $0.005 per call.",
+      "Finds prediction-market questions priced differently on Polymarket vs. Kalshi — a cross-platform divergence signal built from data no single-platform competitor has. Matches are keyword-overlap similarity, not a verified same-event guarantee; sanity-check a match before treating it as a real arbitrage signal. Price: $0.05 per call.",
     params: {
       q: { zod: z.string().optional().describe("Optional keyword filter on the matched question text") },
       limit: { zod: z.string().optional().describe("Max matches to return, 1-25 (default 10)") },
@@ -132,7 +132,7 @@ const ROUTES: RouteDef[] = [
     path: "/api/defi-tvl",
     title: "DeFi protocol TVL by chain",
     description:
-      "A DeFi protocol's current total value locked (TVL), broken out by chain, plus market cap. Data via DefiLlama. Price: $0.003 per call.",
+      "A DeFi protocol's current total value locked (TVL), broken out by chain, plus market cap. Data via DefiLlama. Price: $0.01 per call.",
     params: {
       protocol: { zod: z.string().describe("DefiLlama protocol slug, e.g. \"uniswap\", \"aave\"") },
     },
@@ -141,7 +141,7 @@ const ROUTES: RouteDef[] = [
     toolName: "rank_chains_by_defi_tvl",
     path: "/api/defi-chains",
     title: "Rank blockchains by total DeFi TVL",
-    description: "Ranks blockchains by total DeFi value locked across all protocols. Price: $0.002 per call.",
+    description: "Ranks blockchains by total DeFi value locked across all protocols. Use this to compare chains; use get_defi_protocol_tvl for a single protocol's TVL. Price: $0.01 per call.",
     params: {
       limit: { zod: z.string().optional().describe("Number of top chains to return, 1-100 (default 15)") },
     },
@@ -151,7 +151,7 @@ const ROUTES: RouteDef[] = [
     path: "/api/crypto-price",
     title: "Crypto price, 24h change, market cap",
     description:
-      "Current price, 24h change percent, and market cap for one or more cryptocurrencies. Price: $0.001 per call.",
+      "Current price, 24h change percent, and market cap for one or more cryptocurrencies. Use this for a quick price check; use get_crypto_market_data instead when you need rank, 24h high/low, volume, or all-time high. Price: $0.01 per call.",
     params: {
       ids: { zod: z.string().describe("Comma-separated CoinGecko coin ids, e.g. \"bitcoin,ethereum\"") },
       vs: { zod: z.string().optional().describe("Quote currency, e.g. \"usd\", \"eur\" (default usd)") },
@@ -162,7 +162,7 @@ const ROUTES: RouteDef[] = [
     path: "/api/crypto-market",
     title: "Rich crypto market data",
     description:
-      "Rich market data for one or more cryptocurrencies: rank, 24h high/low, volume, all-time high, and more. Price: $0.002 per call.",
+      "Rich market data for one or more cryptocurrencies: rank, 24h high/low, volume, all-time high, and more. Price: $0.01 per call.",
     params: {
       ids: { zod: z.string().describe("Comma-separated CoinGecko coin ids, e.g. \"bitcoin,ethereum\"") },
       vs: { zod: z.string().optional().describe("Quote currency, e.g. \"usd\", \"eur\" (default usd)") },
@@ -172,7 +172,7 @@ const ROUTES: RouteDef[] = [
     toolName: "get_crypto_trending",
     path: "/api/crypto-trending",
     title: "Top trending cryptocurrencies right now",
-    description: "The top trending cryptocurrencies right now, ranked by search interest. Price: $0.001 per call.",
+    description: "The top trending cryptocurrencies right now, ranked by search interest. Takes no input — use it to discover which coins are getting attention, then get_crypto_price or get_crypto_market_data for numbers on a specific coin. Price: $0.01 per call.",
     params: {},
   },
   {
@@ -180,7 +180,7 @@ const ROUTES: RouteDef[] = [
     path: "/api/web-search",
     title: "Real-time web search via Exa",
     description:
-      "Real-time web search — ranked results with title, URL, published date, author, and relevance score for a query. Price: $0.003 per call.",
+      "Real-time web search — ranked results with title, URL, published date, author, and relevance score for a query. Price: $0.015 per call.",
     params: {
       q: { zod: z.string().describe("Search query") },
       numResults: { zod: z.number().int().min(1).max(10).optional().describe("Number of results to return, 1-10 (default 5)") },
@@ -191,7 +191,7 @@ const ROUTES: RouteDef[] = [
     path: "/api/rpc",
     title: "Safelisted read-only multi-chain JSON-RPC call",
     description:
-      "Safelisted read-only JSON-RPC proxy across Base, Ethereum, Polygon, Arbitrum, and Optimism — eth_call, eth_getBalance, eth_getTransactionReceipt, eth_blockNumber, and more. Write methods (sending transactions, signing) are never permitted. Price: $0.003 per call.",
+      "Safelisted read-only JSON-RPC proxy across Base, Ethereum, Polygon, Arbitrum, and Optimism — eth_call, eth_getBalance, eth_getTransactionReceipt, eth_blockNumber, and more. Write methods (sending transactions, signing) are never permitted. Price: $0.01 per call.",
     params: {
       chain: { zod: z.enum(["base", "ethereum", "polygon", "arbitrum", "optimism"]).optional().describe("Chain to query (default base)") },
       method: { zod: z.string().describe("Read-only JSON-RPC method name, e.g. eth_getBalance, eth_call, eth_blockNumber") },
@@ -203,7 +203,7 @@ const ROUTES: RouteDef[] = [
     path: "/api/wallet-balance",
     title: "Native + ERC-20 wallet balance",
     description:
-      "Native token balance for a wallet address, plus an optional specific ERC-20 token balance, across Base, Ethereum, Polygon, Arbitrum, or Optimism. Price: $0.002 per call.",
+      "Native token balance for a wallet address, plus an optional specific ERC-20 token balance, across Base, Ethereum, Polygon, Arbitrum, or Optimism. Price: $0.01 per call.",
     params: {
       address: { zod: z.string().describe("EVM wallet address (0x...)") },
       chain: { zod: z.enum(["base", "ethereum", "polygon", "arbitrum", "optimism"]).optional().describe("Chain to query (default base)") },
@@ -214,7 +214,7 @@ const ROUTES: RouteDef[] = [
     toolName: "get_gas_price",
     path: "/api/gas-price",
     title: "Current gas price and EIP-1559 fee estimate",
-    description: "Current gas price and EIP-1559 fee estimate for Base, Ethereum, Polygon, Arbitrum, or Optimism. Price: $0.001 per call.",
+    description: "Current gas price and EIP-1559 fee estimate for Base, Ethereum, Polygon, Arbitrum, or Optimism. Use this rather than call_multichain_rpc when you only need fees — it returns them already formatted. Price: $0.01 per call.",
     params: {
       chain: { zod: z.enum(["base", "ethereum", "polygon", "arbitrum", "optimism"]).optional().describe("Chain to query (default base)") },
     },
@@ -224,7 +224,7 @@ const ROUTES: RouteDef[] = [
     path: "/api/ens-resolve",
     title: "ENS name <-> address resolution",
     description:
-      "Resolves an ENS name to an address, or reverse-resolves an address to its primary ENS name (Ethereum mainnet). Provide exactly one of name or address. Price: $0.002 per call.",
+      "Resolves an ENS name to an address, or reverse-resolves an address to its primary ENS name (Ethereum mainnet). Provide exactly one of name or address. Price: $0.01 per call.",
     params: {
       name: { zod: z.string().optional().describe("ENS name to resolve, e.g. \"vitalik.eth\"") },
       address: { zod: z.string().optional().describe("EVM address to reverse-resolve to its primary ENS name") },
@@ -249,7 +249,12 @@ async function callRoute(route: RouteDef, args: Record<string, unknown>) {
 
   let res: Response;
   try {
-    res = await fetchWithPayment(url.toString(), { method: "GET" });
+    // x-client lets x402tap.com tell MCP traffic apart from directory probes
+    // and other buyers in its settlement logs.
+    res = await fetchWithPayment(url.toString(), {
+      method: "GET",
+      headers: { "x-client": `microtap-mcp/${VERSION}` },
+    });
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     return {

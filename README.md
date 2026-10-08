@@ -30,7 +30,7 @@ After adding it, restart your client, then look at the server's startup log (in 
 [microtap-mcp] fund this address with a small amount of USDC on Base mainnet to pay for calls
 ```
 
-Send a few dollars of USDC on **Base mainnet** to that address — at $0.001–$0.05 per call, that covers hundreds of calls. Your assistant can now use any of the 20 tools below; each one pays for itself automatically.
+Send a few dollars of USDC on **Base mainnet** to that address — at $0.01 per call for most tools (up to $0.05), $5 covers a few hundred calls. Your assistant can now use any of the 20 tools below; each one pays for itself automatically.
 
 ## What it does
 
@@ -45,26 +45,26 @@ The private key never leaves your machine. It isn't sent to MicroTap, an LLM pro
 
 | Tool | Route | Price |
 |---|---|---|
-| `get_protected_content` | `/protected` | $0.001 |
-| `get_weather` | `/api/weather` | $0.001 |
+| `get_protected_content` | `/protected` | $0.01 |
+| `get_weather` | `/api/weather` | $0.01 |
 | `generate_text` | `/api/generate` | usage-based, max $0.05 |
-| `get_trend_insights` | `/api/insights` | $0.001–$0.005 |
+| `get_trend_insights` | `/api/insights` | $0.01–$0.025 |
 | `ping_heartbeat` | `/api/ping` | $0.001 |
-| `search_polymarket_markets` | `/api/polymarket-markets` | $0.003 |
-| `get_polymarket_market` | `/api/polymarket-market` | $0.002 |
-| `search_kalshi_markets` | `/api/kalshi-markets` | $0.003 |
-| `get_kalshi_market` | `/api/kalshi-market` | $0.002 |
-| `find_prediction_market_divergence` | `/api/prediction-arb` | $0.005 |
-| `get_defi_protocol_tvl` | `/api/defi-tvl` | $0.003 |
-| `rank_chains_by_defi_tvl` | `/api/defi-chains` | $0.002 |
-| `get_crypto_price` | `/api/crypto-price` | $0.001 |
-| `get_crypto_market_data` | `/api/crypto-market` | $0.002 |
-| `get_crypto_trending` | `/api/crypto-trending` | $0.001 |
-| `web_search` | `/api/web-search` | $0.003 |
-| `call_multichain_rpc` | `/api/rpc` | $0.003 |
-| `get_wallet_balance` | `/api/wallet-balance` | $0.002 |
-| `get_gas_price` | `/api/gas-price` | $0.001 |
-| `resolve_ens` | `/api/ens-resolve` | $0.002 |
+| `search_polymarket_markets` | `/api/polymarket-markets` | $0.01 |
+| `get_polymarket_market` | `/api/polymarket-market` | $0.01 |
+| `search_kalshi_markets` | `/api/kalshi-markets` | $0.01 |
+| `get_kalshi_market` | `/api/kalshi-market` | $0.01 |
+| `find_prediction_market_divergence` | `/api/prediction-arb` | $0.05 |
+| `get_defi_protocol_tvl` | `/api/defi-tvl` | $0.01 |
+| `rank_chains_by_defi_tvl` | `/api/defi-chains` | $0.01 |
+| `get_crypto_price` | `/api/crypto-price` | $0.01 |
+| `get_crypto_market_data` | `/api/crypto-market` | $0.01 |
+| `get_crypto_trending` | `/api/crypto-trending` | $0.01 |
+| `web_search` | `/api/web-search` | $0.015 |
+| `call_multichain_rpc` | `/api/rpc` | $0.01 |
+| `get_wallet_balance` | `/api/wallet-balance` | $0.01 |
+| `get_gas_price` | `/api/gas-price` | $0.01 |
+| `resolve_ens` | `/api/ens-resolve` | $0.01 |
 
 Full parameter docs for each route: [`x402tap.com/openapi.json`](https://x402tap.com/openapi.json).
 
